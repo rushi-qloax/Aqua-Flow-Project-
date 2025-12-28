@@ -83,7 +83,7 @@ export const OfferRulesPage: React.FC = () => {
         <div>
           <h4 className="text-sm font-black text-blue-900 dark:text-blue-100 uppercase tracking-widest">Business Intelligence Note</h4>
           <p className="text-xs font-bold text-blue-800/60 dark:text-blue-200/60 mt-2 leading-relaxed">
-            These rules are applied instantly when the system scans a route. High discount percentages (30%+) are recommended for routes with &gt;40% wasted capacity to recover logistics overheads quickly.
+            These rules are applied instantly when the system scans a route. High discount percentages (30%+) are recommended for routes with {">"} 40% wasted capacity to recover logistics overheads quickly.
           </p>
         </div>
       </div>
@@ -95,7 +95,7 @@ export const OfferRulesPage: React.FC = () => {
             </div>
             <div>
                <h4 className="text-lg font-black uppercase tracking-tighter italic">Global Load Threshold</h4>
-               <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mt-1">Offers are only triggered when wasted space &gt; 800L</p>
+               <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mt-1">Offers are only triggered when wasted space {">"} 800L</p>
             </div>
          </div>
          <div className="flex items-center gap-4">
