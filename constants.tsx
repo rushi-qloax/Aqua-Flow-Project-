@@ -1,22 +1,40 @@
 
 import React from 'react';
-import { ShoppingCart, DollarSign, CreditCard, Activity, Truck, MapPin, UserCheck, ShieldCheck } from 'lucide-react';
-import { KPIData, InventoryItem, Alert, OrderTrend, Order, Payment, Partner } from './types';
+import { ShoppingCart, DollarSign, CreditCard, Activity, Truck, MapPin, UserCheck, ShieldCheck, Gift } from 'lucide-react';
+import { KPIData, InventoryItem, Alert, OrderTrend, Order, Payment, Partner, Vehicle, OfferRule, LoadOffer } from './types';
 
 export const INITIAL_KPIS: Record<string, KPIData[]> = {
   ADMIN: [
     { label: "Today's Orders", value: '42', trend: 12.5, icon: <ShoppingCart className="w-5 h-5" />, color: 'blue' },
     { label: 'Pending Payments', value: '₹8.2L', trend: 5.1, icon: <CreditCard className="w-5 h-5" />, color: 'red' },
     { label: 'Stock Health', value: '94%', trend: 2.4, icon: <Activity className="w-5 h-5" />, color: 'emerald' },
-    { label: 'Top Wholesaler', value: 'Mumbai Log.', trend: 8.2, icon: <UserCheck className="w-5 h-5" />, color: 'indigo' },
+    { label: 'Offer Revenue', value: '₹1.4L', trend: 15.2, icon: <Gift className="w-5 h-5" />, color: 'indigo' },
   ],
   STAFF: [
     { label: 'Orders to Process', value: '18', trend: 0, icon: <ShoppingCart className="w-5 h-5" />, color: 'blue' },
     { label: "Today's Deliveries", value: '12', trend: 0, icon: <Truck className="w-5 h-5" />, color: 'emerald' },
-    { label: 'System Alerts', value: '3', trend: 0, icon: <Activity className="w-5 h-5" />, color: 'red' },
+    { label: 'Active Load Offers', value: '5', trend: 0, icon: <Gift className="w-5 h-5" />, color: 'indigo' },
     { label: 'Pending Approval', value: '5', trend: 0, icon: <ShieldCheck className="w-5 h-5" />, color: 'amber' },
   ]
 };
+
+export const MOCK_VEHICLES: Vehicle[] = [
+  { id: 'V-001', plateNumber: 'MH-12-AQ-9082', capacity: 3000, currentLoad: 1800, route: 'Mumbai - Thane', status: 'Loading' },
+  { id: 'V-002', plateNumber: 'MH-14-BT-1122', capacity: 2000, currentLoad: 1950, route: 'Pune - Nashik', status: 'In-Transit' },
+  { id: 'V-003', plateNumber: 'MH-01-XX-4455', capacity: 5000, currentLoad: 2500, route: 'Nagpur - Wardha', status: 'Loading' },
+];
+
+export const MOCK_OFFER_RULES: OfferRule[] = [
+  { id: 'R-1', minQuantity: 500, discountPercentage: 30, isActive: true },
+  { id: 'R-2', minQuantity: 1000, discountPercentage: 20, isActive: true },
+  { id: 'R-3', minQuantity: 1500, discountPercentage: 10, isActive: true },
+];
+
+export const MOCK_LOAD_OFFERS: LoadOffer[] = [
+  { id: 'OFFER-771', vehicleId: 'V-001', targetPartnerId: 'P-10', partnerName: 'Ghatkopar Distributors', discount: 30, quantityRequested: 500, status: 'Active', expiryTime: '2h 15m' },
+  { id: 'OFFER-772', vehicleId: 'V-001', targetPartnerId: 'P-11', partnerName: 'Mulund Retailers', discount: 20, quantityRequested: 1000, status: 'Accepted', expiryTime: '0' },
+  { id: 'OFFER-773', vehicleId: 'V-003', targetPartnerId: 'P-22', partnerName: 'Wardha Traders', discount: 30, quantityRequested: 500, status: 'Active', expiryTime: '4h 00m' },
+];
 
 export const MOCK_INVENTORY: InventoryItem[] = [
   { id: '1', sku: 'NIKS-500-CL', name: 'NIKS-AQUA 500ml Classic', stock: 12000, reorderPoint: 5000, status: 'High', location: 'Main Plant A' },
@@ -53,7 +71,6 @@ export const ORDER_TRENDS: OrderTrend[] = [
   { date: 'Sun', orders: 30, revenue: 23000 },
 ];
 
-// Added MAHARASHTRA_DISTRICTS constant
 export const MAHARASHTRA_DISTRICTS = [
   { name: 'MUMBAI', value: 95, revenue: 1250000, orders: 45000 },
   { name: 'PUNE', value: 85, revenue: 850000, orders: 32000 },

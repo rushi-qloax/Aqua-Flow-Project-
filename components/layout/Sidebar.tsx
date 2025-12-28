@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { 
   LayoutDashboard, 
   ShoppingCart, 
@@ -12,9 +12,12 @@ import {
   Droplets,
   Award,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  Gift,
+  Zap,
+  ChevronDown
 } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useAuthStore } from '../../store/authStore';
 
 interface SidebarProps {
@@ -28,6 +31,20 @@ const menuItems = [
   { label: "Dashboard", path: "/dashboard", icon: <LayoutDashboard size={20} />, roles: ["ADMIN", "STAFF"] },
   { label: "Orders", path: "/orders/all", icon: <ShoppingCart size={20} />, roles: ["ADMIN", "STAFF"] },
   { label: "Inventory", path: "/inventory/manufacturer", icon: <Package size={20} />, roles: ["ADMIN", "STAFF"] },
+  {
+    label: "Smart Load Offers",
+    path: "/smart-load-offers",
+    icon: <Gift size={20} />,
+    roles: ["ADMIN", "STAFF", "DRIVER"],
+    subItems: [
+      { label: "Overview", path: "/smart-load-offers" },
+      { label: "Active Offers", path: "/smart-load-offers/active" },
+      { label: "Generate Offers", path: "/smart-load-offers/generate" },
+      { label: "Accepted", path: "/smart-load-offers/accepted" },
+      { label: "Rules & Limits", path: "/smart-load-offers/rules" },
+      { label: "Perf. Reports", path: "/smart-load-offers/reports" },
+    ]
+  },
   { label: "Payments", path: "/payments/ledger", icon: <Wallet size={20} />, roles: ["ADMIN"] },
   { label: "Partners", path: "/partners/wholesalers", icon: <Users size={20} />, roles: ["ADMIN"] },
   { label: "Deliveries", path: "/logistics/deliveries", icon: <Truck size={20} />, roles: ["ADMIN", "DRIVER"] },
@@ -37,7 +54,15 @@ const menuItems = [
 
 export const Sidebar: React.FC<SidebarProps> = ({ collapsed, setCollapsed, activePath, setActivePath }) => {
   const { user } = useAuthStore();
+  const [expandedGroups, setExpandedGroups] = useState<string[]>(['/smart-load-offers']);
+
   const filteredMenu = menuItems.filter(m => m.roles.includes(user?.role || ""));
+
+  const toggleGroup = (path: string) => {
+    setExpandedGroups(prev => 
+      prev.includes(path) ? prev.filter(p => p !== path) : [...prev, path]
+    );
+  };
 
   return (
     <motion.aside
@@ -57,26 +82,63 @@ export const Sidebar: React.FC<SidebarProps> = ({ collapsed, setCollapsed, activ
       </div>
 
       <nav className="flex-1 px-4 py-8 space-y-2 overflow-y-auto custom-scrollbar">
-        {filteredMenu.map((item) => (
-          <button
-            key={item.path}
-            onClick={() => setActivePath(item.path)}
-            className={`w-full flex items-center gap-4 p-3.5 rounded-2xl transition-all group ${
-              activePath === item.path
-                ? 'bg-primary-600 text-white shadow-lg shadow-primary-500/20'
-                : 'text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-900/50'
-            }`}
-          >
-            <div className={activePath === item.path ? 'text-white' : 'text-slate-400 group-hover:text-primary-600'}>
-              {item.icon}
+        {filteredMenu.map((item) => {
+          const isGroup = !!item.subItems;
+          const isExpanded = expandedGroups.includes(item.path);
+          const isActive = activePath === item.path || (item.subItems?.some(s => activePath === s.path));
+
+          return (
+            <div key={item.path} className="space-y-1">
+              <button
+                onClick={() => isGroup ? toggleGroup(item.path) : setActivePath(item.path)}
+                className={`w-full flex items-center gap-4 p-3.5 rounded-2xl transition-all group ${
+                  isActive && !isGroup
+                    ? 'bg-primary-600 text-white shadow-lg shadow-primary-500/20'
+                    : 'text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-900/50'
+                }`}
+              >
+                <div className={isActive ? 'text-white' : 'text-slate-400 group-hover:text-primary-600'}>
+                  {item.icon}
+                </div>
+                {!collapsed && (
+                  <>
+                    <span className={`text-sm tracking-tight flex-1 text-left ${isActive ? 'font-bold' : 'font-semibold'}`}>
+                      {item.label}
+                    </span>
+                    {isGroup && (
+                      <ChevronDown size={14} className={`transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''}`} />
+                    )}
+                  </>
+                )}
+              </button>
+
+              <AnimatePresence>
+                {isGroup && isExpanded && !collapsed && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: 'auto', opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    className="overflow-hidden ml-9 space-y-1"
+                  >
+                    {item.subItems?.map(sub => (
+                      <button
+                        key={sub.path}
+                        onClick={() => setActivePath(sub.path)}
+                        className={`w-full text-left p-2.5 rounded-xl text-xs font-bold tracking-tight transition-all ${
+                          activePath === sub.path 
+                            ? 'text-primary-600 bg-primary-50 dark:bg-primary-900/20' 
+                            : 'text-slate-400 hover:text-slate-600 dark:hover:text-slate-200'
+                        }`}
+                      >
+                        {sub.label}
+                      </button>
+                    ))}
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
-            {!collapsed && (
-              <span className={`text-sm tracking-tight ${activePath === item.path ? 'font-bold' : 'font-semibold'}`}>
-                {item.label}
-              </span>
-            )}
-          </button>
-        ))}
+          );
+        })}
       </nav>
 
       <div className="p-6 border-t border-slate-100 dark:border-slate-900">

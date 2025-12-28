@@ -38,6 +38,35 @@ export interface Order {
   region: string;
 }
 
+// --- Smart Load Feature Types ---
+
+export interface Vehicle {
+  id: string;
+  plateNumber: string;
+  capacity: number; // in Liters/Bottles
+  currentLoad: number;
+  route: string;
+  status: 'Loading' | 'In-Transit' | 'Available';
+}
+
+export interface OfferRule {
+  id: string;
+  minQuantity: number;
+  discountPercentage: number;
+  isActive: boolean;
+}
+
+export interface LoadOffer {
+  id: string;
+  vehicleId: string;
+  targetPartnerId: string;
+  partnerName: string;
+  discount: number;
+  quantityRequested: number;
+  status: 'Active' | 'Accepted' | 'Expired';
+  expiryTime: string;
+}
+
 export interface Payment {
   id: string;
   partner: string;

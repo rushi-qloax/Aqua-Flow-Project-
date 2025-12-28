@@ -1,4 +1,3 @@
-
 import { create } from "zustand";
 import { User } from "../types";
 
@@ -15,6 +14,6 @@ export const useAuthStore = create<AuthState>((set) => ({
     role: "ADMIN",
     avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Sunil"
   },
-  setUser: (user) => set({ user }),
+  setUser: (user: User) => set({ user }),
   logout: () => set({ user: null }),
 }));
