@@ -4,25 +4,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NIKS-AQUA | Owner Command Center</title>
+    <title>NIKS-AQUA | Smart SCM System</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
         darkMode: 'class',
         theme: {
           extend: {
+            fontFamily: {
+              sans: ['Inter', 'system-ui', 'sans-serif'],
+              display: ['Inter', 'sans-serif'],
+            },
             colors: {
-              neon: '#00f2ff',
-              aqua: {
-                50: '#f0fdfe',
-                100: '#ccf8fb',
-                500: '#06b6d4',
-                600: '#0891b2',
-                900: '#164e63',
+              primary: {
+                50: '#f0f9ff',
+                100: '#e0f2fe',
+                200: '#bae6fd',
+                300: '#7dd3fc',
+                400: '#38bdf8',
+                500: '#0ea5e9',
+                600: '#0284c7',
+                700: '#0369a1',
+                800: '#075985',
+                900: '#0c4a6e',
+                950: '#082f49',
               },
-              slate: {
-                950: '#020617',
-              }
             }
           }
         }
@@ -32,38 +38,44 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --font-main: 'Inter', sans-serif;
+        }
         body {
-            font-family: 'Inter', sans-serif;
-            margin: 0;
-            padding: 0;
-            overflow-x: hidden;
+            font-family: var(--font-main);
+            background-color: #f8fafc;
+            color: #0f172a;
             -webkit-font-smoothing: antialiased;
         }
+        .dark body {
+            background-color: #020617;
+            color: #f8fafc;
+        }
         .custom-scrollbar::-webkit-scrollbar {
-            width: 4px;
+            width: 5px;
         }
         .custom-scrollbar::-webkit-scrollbar-track {
             background: transparent;
         }
         .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
+            background: #e2e8f0;
             border-radius: 10px;
         }
         .dark .custom-scrollbar::-webkit-scrollbar-thumb {
             background: #1e293b;
         }
-        .neon-glow {
-            text-shadow: 0 0 10px rgba(6, 182, 212, 0.5);
-        }
         .glass {
-            background: rgba(255, 255, 255, 0.7);
+            background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            border: 1px solid rgba(226, 232, 240, 0.5);
         }
         .dark .glass {
-            background: rgba(2, 6, 23, 0.7);
+            background: rgba(2, 6, 23, 0.8);
             backdrop-filter: blur(12px);
             border: 1px solid rgba(30, 41, 59, 0.5);
+        }
+        .stat-card-glow {
+            box-shadow: 0 0 20px -5px rgba(14, 165, 233, 0.15);
         }
     </style>
 <script type="importmap">
@@ -72,10 +84,11 @@
     "react": "https://esm.sh/react@^19.2.3",
     "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
     "react/": "https://esm.sh/react@^19.2.3/",
-    "lucide-react": "https://esm.sh/lucide-react@^0.562.0",
+    "lucide-react": "https://esm.sh/lucide-react@^0.460.0",
     "@google/genai": "https://esm.sh/@google/genai@^1.34.0",
     "framer-motion": "https://esm.sh/framer-motion@^12.23.26",
     "recharts": "https://esm.sh/recharts@^3.6.0",
+    "zustand": "https://esm.sh/zustand@^5.0.3",
     "vite": "https://esm.sh/vite@^7.3.0",
     "@vitejs/plugin-react": "https://esm.sh/@vitejs/plugin-react@^5.1.2"
   }

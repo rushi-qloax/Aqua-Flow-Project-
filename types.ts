@@ -1,7 +1,14 @@
 
 import React from 'react';
 
-export type Role = 'Manufacturer' | 'Wholesaler' | 'Retailer';
+export type Role = 'ADMIN' | 'STAFF' | 'DRIVER';
+
+export interface User {
+  id: string;
+  name: string;
+  role: Role;
+  avatar?: string;
+}
 
 export interface KPIData {
   label: string;
@@ -27,7 +34,6 @@ export interface Order {
   items: string;
   amount: number;
   status: 'Pending' | 'Approved' | 'Packed' | 'Dispatched' | 'Delivered' | 'Cancelled';
-  type: 'B2B' | 'B2C';
   date: string;
   region: string;
 }
@@ -44,11 +50,11 @@ export interface Payment {
 export interface Partner {
   id: string;
   name: string;
-  type: Role;
+  type: 'Wholesaler' | 'Retailer';
   rating: number;
   region: string;
+  reliability: number;
   badge?: string;
-  reliability: number; // 0-100
 }
 
 export interface Alert {

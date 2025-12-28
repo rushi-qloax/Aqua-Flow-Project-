@@ -72,7 +72,8 @@ export const Header: React.FC<HeaderProps> = ({ darkMode, toggleDarkMode, role, 
                 <div className="px-4 pb-2 mb-2 border-b border-zinc-100 dark:border-zinc-900">
                   <p className="text-[10px] font-black text-zinc-400 uppercase tracking-widest">Select Control Level</p>
                 </div>
-                {(['Manufacturer', 'Wholesaler', 'Retailer'] as Role[]).map((r) => (
+                {/* Updated roles to match 'ADMIN' | 'STAFF' | 'DRIVER' */}
+                {(['ADMIN', 'STAFF', 'DRIVER'] as Role[]).map((r) => (
                   <button
                     key={r}
                     onClick={() => {
