@@ -1,20 +1,20 @@
 
 import React from 'react';
-import { ShoppingCart, DollarSign, CreditCard, Activity, Truck, MapPin, UserCheck, ShieldCheck, Gift } from 'lucide-react';
-import { KPIData, InventoryItem, Alert, OrderTrend, Order, Payment, Partner, Vehicle, OfferRule, LoadOffer } from './types';
+import { ShoppingCart, CreditCard, Activity, Truck, ShieldCheck, Gift } from 'lucide-react';
+import { KPIData, InventoryItem, Alert, OrderTrend, Order, Payment, Vehicle, OfferRule, LoadOffer, Partner } from './types';
 
 export const INITIAL_KPIS: Record<string, KPIData[]> = {
   ADMIN: [
-    { label: "Today's Orders", value: '42', trend: 12.5, icon: <ShoppingCart className="w-5 h-5" />, color: 'blue' },
-    { label: 'Pending Payments', value: '₹8.2L', trend: 5.1, icon: <CreditCard className="w-5 h-5" />, color: 'red' },
-    { label: 'Stock Health', value: '94%', trend: 2.4, icon: <Activity className="w-5 h-5" />, color: 'emerald' },
-    { label: 'Offer Revenue', value: '₹1.4L', trend: 15.2, icon: <Gift className="w-5 h-5" />, color: 'indigo' },
+    { label: "Today's Orders", value: '42', trend: 12.5, icon: <ShoppingCart className="w-5 h-5" />, color: 'blue', key: 'today_orders' },
+    { label: 'Pending Payments', value: '₹8.2L', trend: 5.1, icon: <CreditCard className="w-5 h-5" />, color: 'red', key: 'pending_payments' },
+    { label: 'Stock Health', value: '94%', trend: 2.4, icon: <Activity className="w-5 h-5" />, color: 'emerald', key: 'stock_health' },
+    { label: 'Offer Revenue', value: '₹1.4L', trend: 15.2, icon: <Gift className="w-5 h-5" />, color: 'indigo', key: 'offer_revenue' },
   ],
   STAFF: [
-    { label: 'Orders to Process', value: '18', trend: 0, icon: <ShoppingCart className="w-5 h-5" />, color: 'blue' },
-    { label: "Today's Deliveries", value: '12', trend: 0, icon: <Truck className="w-5 h-5" />, color: 'emerald' },
-    { label: 'Active Load Offers', value: '5', trend: 0, icon: <Gift className="w-5 h-5" />, color: 'indigo' },
-    { label: 'Pending Approval', value: '5', trend: 0, icon: <ShieldCheck className="w-5 h-5" />, color: 'amber' },
+    { label: 'Orders to Process', value: '18', trend: 0, icon: <ShoppingCart className="w-5 h-5" />, color: 'blue', key: 'orders_process' },
+    { label: "Today's Deliveries", value: '12', trend: 0, icon: <Truck className="w-5 h-5" />, color: 'emerald', key: 'today_deliveries' },
+    { label: 'Active Load Offers', value: '5', trend: 0, icon: <Gift className="w-5 h-5" />, color: 'indigo', key: 'active_offers' },
+    { label: 'Pending Approval', value: '5', trend: 0, icon: <ShieldCheck className="w-5 h-5" />, color: 'amber', key: 'pending_approval' },
   ]
 };
 
@@ -37,28 +37,35 @@ export const MOCK_LOAD_OFFERS: LoadOffer[] = [
 ];
 
 export const MOCK_INVENTORY: InventoryItem[] = [
-  { id: '1', sku: 'NIKS-500-CL', name: 'NIKS-AQUA 500ml Classic', stock: 12000, reorderPoint: 5000, status: 'High', location: 'Main Plant A' },
-  { id: '2', sku: 'NIKS-1000-CL', name: 'NIKS-AQUA 1L Classic', stock: 2400, reorderPoint: 3000, status: 'Low', location: 'Mumbai Hub' },
-  { id: '3', sku: 'NIKS-2000-PR', name: 'NIKS-AQUA 2L Premium', stock: 5500, reorderPoint: 4000, status: 'Medium', location: 'Pune Wholesaler 1' },
-  { id: '4', sku: 'NIKS-20-JAR', name: 'NIKS-AQUA 20L Jar', stock: 15000, reorderPoint: 8000, status: 'High', location: 'Thane Central' },
+  { id: '1', sku: 'NIKS-500-CL', name: 'NIKS-AQUA 500ml Classic', stock: 12000, reorderPoint: 5000, status: 'High', location: 'Main Plant A', price: 10 },
+  { id: '2', sku: 'NIKS-1000-CL', name: 'NIKS-AQUA 1L Classic', stock: 2400, reorderPoint: 3000, status: 'Low', location: 'Mumbai Hub', price: 18 },
+  { id: '3', sku: 'NIKS-2000-PR', name: 'NIKS-AQUA 2L Premium', stock: 5500, reorderPoint: 4000, status: 'Medium', location: 'Pune Wholesaler 1', price: 35 },
+  { id: '4', sku: 'NIKS-20-JAR', name: 'NIKS-AQUA 20L Jar', stock: 15000, reorderPoint: 8000, status: 'High', location: 'Thane Central', price: 85 },
 ];
 
 export const MOCK_ORDERS: Order[] = [
-  { id: 'ORD-1001', partner: 'Mumbai Logistics Co.', items: '1200 x 20L Jars', amount: 48000, status: 'Delivered', date: '2024-03-01', region: 'Mumbai' },
-  { id: 'ORD-1002', partner: 'Pune Retail Hub', items: '500 x 1L Classic', amount: 12500, status: 'Dispatched', date: '2024-03-02', region: 'Pune' },
-  { id: 'ORD-1003', partner: 'Nagpur Fresh Mart', items: '3000 x 500ml Classic', amount: 30000, status: 'Approved', date: '2024-03-02', region: 'Nagpur' },
-  { id: 'ORD-1004', partner: 'Nashik Wholesale', items: '100 x 5L Sparkling', amount: 8000, status: 'Pending', date: '2024-03-03', region: 'Nashik' },
+  { id: 'ORD-1001', partnerId: 'P-10', partnerName: 'Mumbai Logistics Co.', items: '1200 x 20L Jars', amount: 48000, status: 'Delivered', date: '2024-03-01', region: 'Mumbai' },
+  { id: 'ORD-1002', partnerId: 'P-2', partnerName: 'Pune Retail Hub', items: '500 x 1L Classic', amount: 12500, status: 'Dispatched', date: '2024-03-02', region: 'Pune' },
+  { id: 'ORD-1003', partnerId: 'P-3', partnerName: 'Nagpur Fresh Mart', items: '3000 x 500ml Classic', amount: 30000, status: 'Approved', date: '2024-03-02', region: 'Nagpur' },
+  { id: 'ORD-1004', partnerId: 'P-4', partnerName: 'Nashik Wholesale', items: '100 x 5L Sparkling', amount: 8000, status: 'Pending', date: '2024-03-03', region: 'Nashik' },
 ];
 
 export const MOCK_PAYMENTS: Payment[] = [
-  { id: 'PAY-7001', partner: 'Mumbai Logistics Co.', amount: 48000, due: '2024-03-15', status: 'Paid', creditLimit: 200000 },
-  { id: 'PAY-7002', partner: 'Pune Retail Hub', amount: 12500, due: '2024-03-20', status: 'Pending', creditLimit: 100000 },
-  { id: 'PAY-7003', partner: 'Nagpur Fresh Mart', amount: 30000, due: '2024-03-10', status: 'Overdue', creditLimit: 50000 },
+  { id: 'PAY-7001', partnerId: 'P-10', partnerName: 'Mumbai Logistics Co.', amount: 48000, due: '2024-03-15', status: 'Paid', creditLimit: 200000 },
+  { id: 'PAY-7002', partnerId: 'P-2', partnerName: 'Pune Retail Hub', amount: 12500, due: '2024-03-20', status: 'Pending', creditLimit: 100000 },
+  { id: 'PAY-7003', partnerId: 'P-3', partnerName: 'Nagpur Fresh Mart', amount: 30000, due: '2024-03-10', status: 'Overdue', creditLimit: 50000 },
+];
+
+export const MOCK_PARTNERS: Partner[] = [
+  { id: 'P-10', name: 'Mumbai Logistics Co.', type: 'Wholesaler', rating: 4.8, region: 'Mumbai', reliability: 98, contact: '+91 98765 43210', email: 'mumbai@niksaqua.com', address: 'Bandra West, Mumbai' },
+  { id: 'P-2', name: 'Pune Retail Hub', type: 'Retailer', rating: 4.2, region: 'Pune', reliability: 85, contact: '+91 98765 43211', email: 'pune@niksaqua.com', address: 'Shivajinagar, Pune' },
+  { id: 'P-3', name: 'Nagpur Fresh Mart', type: 'Retailer', rating: 3.9, region: 'Nagpur', reliability: 72, contact: '+91 98765 43212', email: 'nagpur@niksaqua.com', address: 'Sitabuldi, Nagpur' },
+  { id: 'P-11', name: 'Ghatkopar Distributors', type: 'Wholesaler', rating: 4.5, region: 'Mumbai', reliability: 92, contact: '+91 98765 43213', email: 'ghatkopar@niksaqua.com', address: 'LBS Marg, Ghatkopar' },
 ];
 
 export const MOCK_ALERTS: Alert[] = [
-  { id: '1', type: 'error', title: 'Payment Due', message: 'Nagpur Fresh Mart has an overdue balance of ₹30,000.', timestamp: '10 mins ago', priority: 'High' },
-  { id: '2', type: 'warning', title: 'Low Stock Alert', message: '1L Classic bottles are low at Mumbai Hub.', timestamp: '1 hour ago', priority: 'Medium' },
+  { id: '1', type: 'error', title: 'Payment Due', message: 'Nagpur Fresh Mart has an overdue balance of ₹30,000.', timestamp: '10 mins ago', priority: 'High', read: false },
+  { id: '2', type: 'warning', title: 'Low Stock Alert', message: '1L Classic bottles are low at Mumbai Hub.', timestamp: '1 hour ago', priority: 'Medium', read: false },
 ];
 
 export const ORDER_TRENDS: OrderTrend[] = [

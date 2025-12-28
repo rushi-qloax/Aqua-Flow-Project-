@@ -12,7 +12,7 @@ interface TopbarProps {
 }
 
 export const Topbar: React.FC<TopbarProps> = ({ darkMode, toggleDarkMode, onOpenAlerts }) => {
-  const { user, setUser } = useAuthStore();
+  const { user, setUser, logout } = useAuthStore();
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const switchRole = (role: Role) => {
@@ -28,6 +28,11 @@ export const Topbar: React.FC<TopbarProps> = ({ darkMode, toggleDarkMode, onOpen
       avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${roles[role]}`
     });
     setDropdownOpen(false);
+  };
+
+  const handleLogout = () => {
+    setDropdownOpen(false);
+    logout();
   };
 
   return (
@@ -108,7 +113,10 @@ export const Topbar: React.FC<TopbarProps> = ({ darkMode, toggleDarkMode, onOpen
                   </button>
                 ))}
                 <div className="h-px bg-slate-50 dark:bg-slate-800 my-2"></div>
-                <button className="w-full text-left px-6 py-3 text-xs font-black text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-500/10 flex items-center gap-3">
+                <button 
+                  onClick={handleLogout}
+                  className="w-full text-left px-6 py-3 text-xs font-black text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-500/10 flex items-center gap-3"
+                >
                   <LogOut size={16} /> SIGN OUT
                 </button>
               </motion.div>

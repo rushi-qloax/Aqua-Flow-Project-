@@ -1,41 +1,32 @@
 
 import { GoogleGenAI } from "@google/genai";
 
+/**
+ * Service to fetch AI insights using the Google GenAI SDK.
+ * Adheres to strict @google/genai initialization and usage guidelines.
+ */
 export const getAIResponse = async (userPrompt: string, role: string) => {
-  // Fallback if no API key is provided
-  if (!process.env.API_KEY || process.env.API_KEY === 'your_actual_gemini_api_key_here' || process.env.API_KEY === '') {
-    console.warn("AI Key not found. Running in Mock Mode.");
-    
-    // Simulate a brief delay for realism
-    await new Promise(resolve => setTimeout(resolve, 800));
-    
-    const mockResponses = [
-      `As the owner of NIKS-AQUA, you should focus on the 12% dip in Mumbai logistics today.`,
-      "Current NIKS-AQUA inventory levels are stable across all northern nodes.",
-      "The NIKS-AI predictive model suggests a 5% increase in demand for 20L Jars next week.",
-      "System Alert: Check reorder points for the NIKS-500ml Classic SKU."
-    ];
-    
-    return "[OFFLINE MOCK] " + mockResponses[Math.floor(Math.random() * mockResponses.length)];
-  }
-
   try {
+    // Always use the process.env.API_KEY directly in initialization as it's assumed valid and accessible.
     const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+    
+    // Select gemini-3-flash-preview for general dashboard intelligence tasks.
     const response = await ai.models.generateContent({
       model: "gemini-3-flash-preview",
       contents: userPrompt,
       config: {
-        systemInstruction: `You are an AI Supply Chain Assistant named NIKS-AI for NIKS-AQUA, a water manufacturing company. 
-        The user is the owner browsing the dashboard. 
-        The system was developed by QLOAX Infotech.
-        Provide professional, data-driven, and brief answers. Focus on inventory, logistics, and sales performance.`,
+        systemInstruction: `You are NIKS-AI, an enterprise supply chain intelligence assistant for NIKS-AQUA. 
+        The current dashboard user has the role: ${role}. 
+        Developed by QLOAX Infotech. 
+        Deliver succinct, professional, and actionable data-driven responses focusing on manufacturing logistics and inventory flow.`,
         temperature: 0.7,
       },
     });
 
-    return response.text || "I'm sorry, I couldn't generate a response.";
+    // Access .text property directly from the response object as per SDK guidelines.
+    return response.text || "Operational data processing returned an empty node.";
   } catch (error) {
-    console.error("Gemini API Error:", error);
-    return "I'm currently unable to connect to the intelligence server. Please check your API_KEY configuration.";
+    console.error("NIKS-AI System Error:", error);
+    return "Intelligence server sync failure. Check node connectivity and authorization.";
   }
 };

@@ -16,6 +16,7 @@ export interface KPIData {
   trend: number;
   icon: React.ReactNode;
   color: string;
+  key: string;
 }
 
 export interface InventoryItem {
@@ -26,11 +27,13 @@ export interface InventoryItem {
   reorderPoint: number;
   status: 'Low' | 'Medium' | 'High';
   location: string;
+  price: number;
 }
 
 export interface Order {
   id: string;
-  partner: string;
+  partnerId: string;
+  partnerName: string;
   items: string;
   amount: number;
   status: 'Pending' | 'Approved' | 'Packed' | 'Dispatched' | 'Delivered' | 'Cancelled';
@@ -38,12 +41,10 @@ export interface Order {
   region: string;
 }
 
-// --- Smart Load Feature Types ---
-
 export interface Vehicle {
   id: string;
   plateNumber: string;
-  capacity: number; // in Liters/Bottles
+  capacity: number;
   currentLoad: number;
   route: string;
   status: 'Loading' | 'In-Transit' | 'Available';
@@ -69,7 +70,8 @@ export interface LoadOffer {
 
 export interface Payment {
   id: string;
-  partner: string;
+  partnerId: string;
+  partnerName: string;
   amount: number;
   due: string;
   status: 'Paid' | 'Pending' | 'Overdue' | 'Partially Paid';
@@ -83,20 +85,33 @@ export interface Partner {
   rating: number;
   region: string;
   reliability: number;
-  badge?: string;
+  contact: string;
+  email: string;
+  address: string;
 }
 
-export interface Alert {
+export interface Notification {
   id: string;
   type: 'warning' | 'error' | 'info' | 'success';
   title: string;
   message: string;
   timestamp: string;
   priority: 'High' | 'Medium' | 'Low';
+  read: boolean;
 }
 
+// Fix: Added missing Alert type alias exported to constants.tsx
+export type Alert = Notification;
+
+// Fix: Added missing OrderTrend interface exported to constants.tsx
 export interface OrderTrend {
   date: string;
   orders: number;
   revenue: number;
+}
+
+export interface Toast {
+  id: string;
+  message: string;
+  type: 'success' | 'error' | 'info';
 }

@@ -1,5 +1,7 @@
 {
   "name": "NIKS-AQUA Owner Command Center",
   "description": "Enterprise-grade SCM dashboard for NIKS-AQUA, developed by QLOAX Infotech. Real-time manufacturing and supply chain intelligence.",
-  "requestFramePermissions": []
+  "requestFramePermissions": [
+    "geolocation"
+  ]
 }
